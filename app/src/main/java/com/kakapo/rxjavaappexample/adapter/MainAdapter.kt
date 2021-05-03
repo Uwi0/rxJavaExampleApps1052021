@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kakapo.rxjavaappexample.databinding.RecyclerItemLayoutBinding
-import com.kakapo.rxjavaappexample.model.Crypto
+import com.kakapo.rxjavaappexample.model.Cryptos
 
 class MainAdapter(private val context: Context) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-    private var list: List<Crypto.Market>? = null
+    private var list: MutableList<Cryptos.Market>? = null
 
     inner class ViewHolder(view: RecyclerItemLayoutBinding) : RecyclerView.ViewHolder(view.root){
         val txtCoins = view.txtCoin
@@ -30,11 +30,11 @@ class MainAdapter(private val context: Context) : RecyclerView.Adapter<MainAdapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         list?.let {
             val list = it[position]
-            holder.txtCoins.text = list.coinName
-            holder.txtMarket.text = list.market
+            holder.txtCoins.text = list.market
+            holder.txtMarket.text = list.volume.toString()
             holder.txtPrice.text = list.price
 
-            if(list.coinName!! == "eth"){
+            if(list.market == "eth-usd"){
                 holder.cardView.setCardBackgroundColor(Color.GRAY)
             }else{
                 holder.cardView.setCardBackgroundColor(Color.GREEN)
@@ -47,7 +47,7 @@ class MainAdapter(private val context: Context) : RecyclerView.Adapter<MainAdapt
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<Crypto.Market>){
+    fun setData(data: MutableList<Cryptos.Market>){
         list = data
         notifyDataSetChanged()
     }
